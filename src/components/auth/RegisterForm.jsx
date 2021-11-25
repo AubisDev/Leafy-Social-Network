@@ -8,6 +8,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import googleLogo from './../../img/googleLogo.png';
 import { userRegister } from '../../firebase/firebaseFunctions';
 import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { startRegister } from '../../redux/actions/auth';
+import { useSelector } from 'react-redux';
 
 const theme = createTheme({
   palette: {
@@ -18,6 +21,8 @@ const theme = createTheme({
 });
 
 const RegisterForm = ({ setForm }) => {
+    const dispatch = useDispatch();
+    const { id }= useSelector(state => state.auth);
     let navigate = useNavigate();
 
     const formik = useFormik({
@@ -29,8 +34,11 @@ const RegisterForm = ({ setForm }) => {
           },
           validationSchema: Yup.object(validationSchema()),
           onSubmit: (formData) => {
-            userRegister(formData.email, formData.password, formData.fullname);
-            navigate("/home");
+            dispatch( startRegister( formData.email, formData.password, formData.fullname ) )
+            if( id ){
+                navigate("/home");
+            }
+
           }
     });
     

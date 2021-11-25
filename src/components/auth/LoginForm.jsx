@@ -6,10 +6,9 @@ import Divider from '@mui/material/Divider';
 import { teal } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import googleLogo from './../../img/googleLogo.png';
-import { userLogin } from '../../firebase/firebaseFunctions';
 import { useNavigate } from 'react-router';
-
-
+import { useDispatch, useSelector } from 'react-redux';
+import { startLoginWithEmailAndPassword } from '../../redux/actions/auth';
 
 const theme = createTheme({
   palette: {
@@ -20,8 +19,9 @@ const theme = createTheme({
 });
 
 const LoginForm = ({setForm}) => {
-
-    let navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { id }= useSelector(state => state.auth);
+    let navigate = useNavigate(); 
 
     const formik = useFormik({
         initialValues: {
@@ -30,8 +30,11 @@ const LoginForm = ({setForm}) => {
           },
           validationSchema: Yup.object(validationSchema()),
           onSubmit: (formData) => {
-            userLogin( formData.email, formData.password )
-            navigate('/home')
+              
+            dispatch( startLoginWithEmailAndPassword(formData.email, formData.password) )
+            if( id ){
+                navigate('/home')
+            }
           }
     });
     
