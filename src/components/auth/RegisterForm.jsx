@@ -6,6 +6,8 @@ import Divider from '@mui/material/Divider';
 import { teal } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import googleLogo from './../../img/googleLogo.png';
+import { userRegister } from '../../firebase/firebaseFunctions';
+import { useNavigate } from 'react-router';
 
 const theme = createTheme({
   palette: {
@@ -16,6 +18,8 @@ const theme = createTheme({
 });
 
 const RegisterForm = ({ setForm }) => {
+    let navigate = useNavigate();
+
     const formik = useFormik({
         initialValues: {
             fullname:'',
@@ -24,7 +28,10 @@ const RegisterForm = ({ setForm }) => {
             confirm: ''
           },
           validationSchema: Yup.object(validationSchema()),
-          onSubmit: (formData) => console.log(formData)
+          onSubmit: (formData) => {
+            userRegister(formData.email, formData.password, formData.fullname);
+            navigate("/home");
+          }
     });
     
     return (

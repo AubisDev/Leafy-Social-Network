@@ -4,14 +4,14 @@ import {
     Route
   } from "react-router-dom";
   import Login from "../components/auth/Login";
-  import Register from "../components/auth/Register";
+import HomePage from "../components/mainpage/HomePage";
   
   const MainApp = () => {
       return(
           <BrowserRouter>
               <Routes>
                   <Route  path="/" element={<Login />} />\
-                  <Route path='/register' element={<Register/>}/>
+                  <Route path='/home' element={<HomePage/>}/>
               </Routes>
           </BrowserRouter>
       )
