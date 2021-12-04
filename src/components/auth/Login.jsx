@@ -1,12 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Logo from '../../img/logo.png';
 import 'animate.css';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
+import { useNavigate } from 'react-router';
+
 
 const Login = () => {
-
+    let navigate = useNavigate();
     const [form, setForm] = useState(true);
+
+    useEffect(() => {
+        if( localStorage.getItem('USER_TOKEN') ){
+            navigate("/home", { replace: true });
+        }
+    }, [])
+
+   
 
     return (
         <div className='h-screen w-screen flex flex-row'>

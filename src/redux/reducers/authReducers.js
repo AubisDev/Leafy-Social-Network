@@ -10,18 +10,23 @@ const initialValues = {
 const authReducer = ( state=initialValues, action ) =>{
     switch( action.type ){
         case types.REGISTER_SUCCESS:
+
+            localStorage.setItem('USER_TOKEN', action.payload.accessToken);
             return {
                 ...state,
                 name: action.payload.name,
                 token: action.payload.accessToken,
-                uid: action.payload.uid,
+                id: action.payload.uid,
                 error: false
             }
-        case types.LOGIN_SUCCCES:
+        case types.LOGIN_SUCCESS:
+
+            localStorage.setItem('USER_TOKEN', action.payload.accessToken);
             return {
                 ...state,
                 token: action.payload.accessToken,
-                uid: action.payload.uid,
+                id: action.payload.uid,
+                name: action.payload.name,
                 error: false
             }
 
@@ -32,7 +37,7 @@ const authReducer = ( state=initialValues, action ) =>{
                 error: true
             }
 
-        case types.USER_LOOGUT:
+        case types.USER_LOGOUT:
             return
         
         default:

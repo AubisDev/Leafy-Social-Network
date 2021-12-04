@@ -8,7 +8,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import googleLogo from './../../img/googleLogo.png';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
-import { startLoginWithEmailAndPassword } from '../../redux/actions/auth';
+import { startLoginWithEmailAndPassword, startLoginWithGoogleAccount } from '../../redux/actions/auth';
 
 const theme = createTheme({
   palette: {
@@ -29,19 +29,27 @@ const LoginForm = ({setForm}) => {
             password: '123456',
           },
           validationSchema: Yup.object(validationSchema()),
-          onSubmit: (formData) => {
+          onSubmit: async(formData) => {
               
-            dispatch( startLoginWithEmailAndPassword(formData.email, formData.password) )
+            await dispatch( startLoginWithEmailAndPassword(formData.email, formData.password) )
             if( id ){
-                navigate('/home')
+                navigate("/home", { replace: true });
             }
           }
     });
+
+    const loginWithGoogle = async() => {
+        await dispatch( startLoginWithGoogleAccount() )
+        if( id ){
+            navigate("/home", { replace: true });
+        }
+    }
     
     return (
         <div className='flex flex-col'>
             <button
-                className='flex flex-row mb-8 py-3 items-center justify-center  bg-green-600 text-white hover:bg-green-800 animate__animated animate__fadeIn animate__slower '
+                className='flex flex-row mb-8 py-3 items-center justify-center shadow-lg bg-green-600 text-white hover:bg-green-800 animate__animated animate__fadeIn animate__slower '
+                onClick={ loginWithGoogle }
             ><img src={googleLogo} alt='google logo' className='w-10 h-10 mr-2 p-2 bg-white ' /> Sign in with Google </button>
             <form 
                 onSubmit={formik.handleSubmit}

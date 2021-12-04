@@ -6,7 +6,6 @@ import Divider from '@mui/material/Divider';
 import { teal } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import googleLogo from './../../img/googleLogo.png';
-import { userRegister } from '../../firebase/firebaseFunctions';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { startRegister } from '../../redux/actions/auth';
@@ -33,8 +32,8 @@ const RegisterForm = ({ setForm }) => {
             confirm: ''
           },
           validationSchema: Yup.object(validationSchema()),
-          onSubmit: (formData) => {
-            dispatch( startRegister( formData.email, formData.password, formData.fullname ) )
+          onSubmit: async(formData) => {
+            await dispatch( startRegister( formData.fullname , formData.email, formData.password,) )
             if( id ){
                 navigate("/home");
             }
